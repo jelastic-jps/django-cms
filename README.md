@@ -1,7 +1,6 @@
 # Jelastic DjangoCMS Installation Package 
 
 This repository provides [DjangoCMS](http://django-cms.org/) JPS-based installation package for Jelastic Platform.
-[![GET IT HOSTED](https://raw.githubusercontent.com/JelasticJPS/DjangoCMS/master/images/getithosted.png)](http://go.jelastic.com/test?hoster-select=1&theme=modern&app=https://raw.githubusercontent.com/JelasticJPS/DjangoCMS/master/DjangoCMS-1.1.1.json)
 
 **DjangoCMS** is an open source content management system.
 
