@@ -3,7 +3,7 @@
 	"jpsType": "install",
 	"application": {
 		"version": "1.1.1",
-		"logo": "https://raw.githubusercontent.com/JelasticJPS/DjangoCMS/master/images/cms_icon.png",
+		"logo": "https://raw.githubusercontent.com/jelastic-jps/DjangoCMS/master/images/cms_icon.png",
 		"type": "python",
 		"homepage": "http://django-cms.org/",
 		"name": "DjangoCMS",
@@ -25,7 +25,7 @@
 				]
 			},
 			"deployments": [{
-					"archive": "https://raw.githubusercontent.com/JelasticJPS/DjangoCMS/master/dumps/djangocms-master.zip",
+					"archive": "https://raw.githubusercontent.com/jelastic-jps/DjangoCMS/master/dumps/djangocms-master.zip",
 					"name": "djangoCMS.zip",
 					"context": "ROOT"
 				}
