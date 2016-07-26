@@ -1,22 +1,11 @@
-# Jelastic DjangoCMS Installation Package 
+[![DjangoCMS](images/django_cms.jpg)](../../../django-cms)
+## DjangoCMS
 
-This repository provides [DjangoCMS](http://django-cms.org/) JPS-based installation package for Jelastic Platform.
+The JPS package deploys [DjangoCMS](http://django-cms.org/)  that initially contains 1 application server.
 
-**DjangoCMS** is an open source content management system.
-
-**Engine**: python2.7
-
-**Environment topology**:
-
-1. 
-   - node type: apache2-python
-   - count: 1
-   - cloudlets: 16
-   - external IP: false
-
-
-### What it can be used for? 
-The open source content management system based on the Web framework Django that encourages rapid development and clean, pragmatic design.
+### Highlights
+This package is designed to deploy DjangoCMS environment which represents an open source content management system.
+DjangoCMS is an open source content management system based on the Web framework Django that encourages rapid development and clean, pragmatic design.
   - **Ridiculously fast.**
     Django was designed to help developers take applications from concept to completion as quickly as possible.
   - **Reassuringly secure.**
@@ -24,24 +13,29 @@ The open source content management system based on the Web framework Django that
   - **Exceedingly scalable.**
     Some of the busiest sites on the Web leverage Django’s ability to quickly and flexibly scale.
 
-    
+### Environment Topology
 
-### What Jelastic JPS package is?
+![DjangoCMS Topology](https://docs.google.com/drawings/d/1Xn3ofm4oNPhRGfp5uE_IrA3KYutmccfL4bx-RtGwYJM/pub?w=219&h=133)
 
-Jelastic JPS package represents an one-click installation solution, that allows to get the desired project hosted at Jelastic Cloud in a matter of minutes. Being based on [Jelastic Packaging Standard](https://docs.jelastic.com/jps), it automates creation of the necessary environment and subsequent application deployment to it. Herewith, all of the required properties and behaviors are predefined within the package JSON manifest, so you instantly get the ready-to-go solution.
-The full list of the available at a platform one-click packages can be seen at the corresponding same-named section of [Jelastic Marketplace](https://docs.jelastic.com/marketplace#apps].
+### Specifics
 
-### How to deploy a package?
-###### For Developers
+Layer                |     Server    | Number of CTs <br/> by default | Cloudlets per CT <br/> (reserved/dynamic) | Options
+-------------------- | --------------| :----------------------------: | :---------------------------------------: | :-----:
+AS                   | Apache 2 (PYTHON) |       1                        |           1 / 16                          | -
 
-In case you can’t find the desired solution within the list of available ones at your dashboard, just copy and save the content of its manifest as a *.json* file and [import](https://docs.jelastic.com/environment-export-import#import) it to the dashboard. Herewith, you can apply any necessary adjustments to template settings through this file (if such are required) and install its customized version in the similar way.
+* AS - Application server 
+* DB - Database 
+* CT - Container
 
-###### For Cluster Admins
+**DjangoCMS Version**: 1.8.5<br/>
+**Python Engine**: Python 2.7
 
-In order to add the desired JPS package to your platform and make it available for users, perform the following:
-- copy content of its manifest 
-- switch to the [Marketplace](http://ops-docs.jelastic.com/marketplace-46) section of your JCA panel and choose **Add > New Installation** menu option
-- paste the copied strings into the appeared frame and **Save** the template
-- choose your newly added package within the list and click on **Publish** above
+### Deployment
 
-Also, you are able to adjust the given package template according to your needs and provide its customized version.
+In order to get this solution instantly deployed, click the "Get It Hosted Now" button, specify your email address within the widget, choose one of the [Jelastic Public Cloud providers](https://jelastic.cloud) and press Install.
+
+[![GET IT HOSTED](https://raw.githubusercontent.com/jelastic-jps/jpswiki/master/images/getithosted.png)](https://jelastic.com/install-application/?manifest=https%3A%2F%2Fgithub.com%2Fjelastic-jps%2Fdjango-cms%2Fraw%2Fmaster%2Fmanifest.jps)
+
+To deploy this package to Jelastic Private Cloud, import [this JPS manifest](../../raw/master/manifest.jps) within your dashboard ([detailed instruction](https://docs.jelastic.com/environment-export-import#import)).
+
+More information about Jelastic JPS package and about installation widget for your website can be found in the [Jelastic JPS Application Package](https://github.com/jelastic-jps/jpswiki/wiki/Jelastic-JPS-Application-Package) reference.
