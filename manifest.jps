@@ -1,39 +1,39 @@
 {
-	"jpsVersion": "0.4",
-	"jpsType": "install",
-	"application": {
-		"version": "1.1.1",
-		"logo": "https://raw.githubusercontent.com/jelastic-jps/django-cms/master/images/cms_icon.png",
-		"type": "python",
-		"homepage": "http://django-cms.org/",
-		"name": "DjangoCMS",
-		"categories": ["apps/cms", "apps/content-management"],
-		"description": {
-			"en": "The open source content management system based on the Web framework Django."
-		},
-		"env": {
-			"topology": {
-				"ha": false,
-				"engine": "python2.7",
-				"ssl": false,
-				"nodes": [{
-						"nodeType": "apache2-python",
-						"extip": false,
-						"count": 1,
-						"cloudlets": 16
-					}
-				]
-			},
-			"deployments": [{
-					"archive": "https://raw.githubusercontent.com/jelastic-jps/django-cms/master/dumps/djangocms-master.zip",
-					"name": "djangoCMS.zip",
-					"context": "ROOT"
-				}
-			]
-		},
-		"success": {
-			"text": "Below you will find your domain name link.</br></br> <table style='font-size:13px; border: none;'><tr><td>Domain name URL:</td><td style='padding-left: 10px;'><a href='${env.protocol}://${env.domain}/' target='_blank'>${env.protocol}://${env.domain}/</a></td></tr></table></br>To add custom domain name for your DjangoCMS installation follow the steps described in our <a href='http://docs.jelastic.com/custom-domains' target='_blank'>documentation</a>",
-			"email": "Below you will find your domain name link.</br></br> <table style='font-size:13px; border: none;'><tr><td>Domain name URL:</td><td style='padding-left: 10px;'><a href='${env.protocol}://${env.domain}/' target='_blank'>${env.protocol}://${env.domain}/</a></td></tr></table></br>To add custom domain name for your DjangoCMS installation follow the steps described in our <a href='http://docs.jelastic.com/custom-domains' target='_blank'>documentation</a>"
-		}
-	}
+    "jpsVersion": "0.4",
+    "jpsType": "install",
+    "application": {
+        "version": "1.1.1",
+        "logo": "https://download.jelastic.com/public.php?service=files&t=bf35478b7707b5269d44adfe07b093a6&download",
+        "type": "python",
+        "homepage": "http://django-cms.org/",
+        "name": "DjangoCMS",
+        "categories" : [  "apps/cms" ,"apps/content-management"],
+        "description": {
+            "en": "The open source content management system based on the Web framework Django."
+        },
+        "env": {
+            "topology": {
+                "ha": false,
+                "engine": "python2.7",
+                "ssl": false,
+                "nodes": [{
+                              "nodeType": "apache2-python",
+                              "extip": false,
+                              "count": 1,
+                              "cloudlets": 16
+                          }
+                ]
+            },
+            "deployments": [{
+                                "archive": "https://download.jelastic.com/public.php?service=files&t=f3fbb5341787a682d3aa2ca6dc3c12cf&download",
+                                "name": "djangoCMS.zip",
+                                "context": "ROOT"
+                            }
+            ]
+        },
+        "success": {
+            "text": "Below you will find your domain name link.</br></br> <table style='font-size:13px; border: none;'><tr><td>Domain name URL:</td><td style='padding-left: 10px;'><a href='${env.protocol}://${env.domain}/' target='_blank'>${env.protocol}://${env.domain}/</a></td></tr></table> </br></br> <table style='font-size:13px; border: none;'><tr><td>Admin panel URL:</td><td style='padding-left: 10px;'><a href='${env.protocol}://${env.domain}/admin/' target='_blank'>${env.protocol}://${env.domain}/admin/</a></td></tr>  <tr><td>Admin name:</td><td style='padding-left: 10px;'>jelastic</td></tr><tr><td>Password:</td><td style='padding-left: 10px;'>jelastic</td></tr></table></br></br>To add custom domain name for your DjangoCMS installation follow the steps described in our <a href='http://docs.jelastic.com/custom-domains' target='_blank'>documentation</a>",
+            "email": "Below you will find your domain name link.</br></br> <table style='font-size:13px; border: none;'><tr><td>Domain name URL:</td><td style='padding-left: 10px;'><a href='${env.protocol}://${env.domain}/' target='_blank'>${env.protocol}://${env.domain}/</a></td></tr></table> </br></br> <table style='font-size:13px; border: none;'><tr><td>Admin panel URL:</td><td style='padding-left: 10px;'><a href='${env.protocol}://${env.domain}/admin/' target='_blank'>${env.protocol}://${env.domain}/admin/</a></td></tr>  <tr><td>Admin name:</td><td style='padding-left: 10px;'>jelastic</td></tr><tr><td>Password:</td><td style='padding-left: 10px;'>jelastic</td></tr></table></br></br>To add custom domain name for your DjangoCMS installation follow the steps described in our <a href='http://docs.jelastic.com/custom-domains' target='_blank'>documentation</a>"
+        }
+    }
 }
