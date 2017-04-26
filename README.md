@@ -15,7 +15,7 @@ DjangoCMS is an open source content management system based on the Web framework
 
 ### Environment Topology
 
-![DjangoCMS Topology](https://docs.google.com/drawings/d/1Xn3ofm4oNPhRGfp5uE_IrA3KYutmccfL4bx-RtGwYJM/pub?w=219&h=133)
+![django-cms-environment-topology](images/django-cms-environment-topology.png)
 
 ### Specifics
 
