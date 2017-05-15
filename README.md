@@ -1,7 +1,7 @@
 [![DjangoCMS](images/django_cms.jpg)](../../../django-cms)
 ## DjangoCMS
 
-The JPS package deploys [DjangoCMS](http://django-cms.org/)  that initially contains 1 application server.
+The JPS package deploys [DjangoCMS](http://django-cms.org/) that initially contains 1 application server.
 
 ### Highlights
 This package is designed to deploy DjangoCMS environment which represents an open source content management system.
