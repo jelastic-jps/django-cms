@@ -20,7 +20,7 @@
                               "nodeType": "apache2-python",
                               "extip": false,
                               "count": 1,
-                              "cloudlets": 16
+                              "cloudlets": 8
                           }
                 ]
             },
