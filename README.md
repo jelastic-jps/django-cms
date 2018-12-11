@@ -8,6 +8,7 @@
 
 ### Environment Topology
 
+The JPS package creates a Python-based environment, which initially contains a single Apache application server, and deploys the Django CMS software.
 
 ![django-cms-environment-topology](images/djangocms-environment-topology.png) 
 
