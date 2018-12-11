@@ -12,7 +12,9 @@
 ![django-cms-environment-topology](images/djangocms-environment-topology.png) 
 
 **Django Version**: 1.11.17 
+
 **Django CMS Version**: 3.5.3
+
 **Python Engine**: Python 3.6.6 
 
 
