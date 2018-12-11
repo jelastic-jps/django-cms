@@ -14,12 +14,10 @@
         "env": {
             "topology": {
                 "ha": false,
-                "engine": "python2.7",
                 "ssl": false,
                 "nodes": [{
                               "nodeType": "apache2-python",
-                              "extip": false,
-                              "count": 1,
+                              "tag": "2.4.35-python-3.6.6",
                               "cloudlets": 8
                           }
                 ]
