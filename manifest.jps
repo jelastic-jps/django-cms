@@ -26,7 +26,7 @@
       },
       "deployments": [
         {
-          "archive": "https://download.jelastic.com/public.php?service=files&t=f3fbb5341787a682d3aa2ca6dc3c12cf&download",
+          "archive": "https://download.jelastic.com/public.php?service=files&t=37fb2dedbc72453fe73fbe2e890a10f2&download",
           "name": "djangoCMS.zip",
           "context": "ROOT"
         }
