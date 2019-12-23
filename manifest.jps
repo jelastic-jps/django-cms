@@ -20,12 +20,12 @@ settings:
           caption: Long Term Support
         - value: stable
           caption: Stable (Default)
-      
+
 globals:
   DB_USER: jelastic-${fn.random}
   DB_PASS: ${fn.password(10)}
   ADMIN_PASS: ${fn.password(10)}
-  ADMIN_USER: jelastic-${fn.random}
+  ADMIN_USER: ${fn.random}
 
 nodes:
   - nodeType: apache-python
@@ -34,20 +34,23 @@ nodes:
     count: 1
     nodeGroup: cp
     links: sqldb:DB
-    
+
   - nodeType: mariadb-dockerized
     count: 1
     cloudlets: 8
     nodeGroup: sqldb
-    
+
 onInstall:
   - log: Set Node Display Name
   - setNodeDisplayName [cp]: AppServer
   - setNodeDisplayName [sqldb]: Database
+  - log: Creating django Database
   - createDb
+  - log: Deploying djangocms-installer
   - deployDjango
+  - log: Setting up django cms
   - setupDjango
- 
+
 actions:
   createDb:
     - cmd [sqldb]: |-
@@ -73,16 +76,21 @@ actions:
         -s --no-user --bootstrap yes --permissions yes \
         -p /var/www/webroot ROOT
         sed -i "s/^ALLOWED_HOSTS.*/ALLOWED_HOSTS = ['*']/g" /var/www/webroot/ROOT/settings.py
+        sed -i "s/^Alias \/static.*/Alias \/static \/var\/www\/webroot\/static/g" /etc/httpd/conf.d/wsgi.conf
+        sed -i "s/^Alias \/images.*/Alias \/media \/var\/www\/webroot\/media/g" /etc/httpd/conf.d/wsgi.conf
+        jem service restart httpd
         /var/www/webroot/manage.py collectstatic
         /var/www/webroot/manage.py createsuperuser --username ${globals.ADMIN_USER} --email ${user.email} --noinput
         /var/www/webroot/manage.py shell -c "from django.contrib.auth.models import User;user = User.objects.get(username='${globals.ADMIN_USER}');user.set_password('${globals.ADMIN_PASS}');user.save()"
         chmod 0775 /var/www/webroot/ROOT
       user: jelastic
-        
+
 success: |
   Below you will find your domain name link.  
   Domain name URL: [${env.protocol}://${env.domain}/](${env.protocol}://${env.domain}/)  
   Admin panel URL: [${env.protocol}://${env.domain}/admin/](${env.protocol}://${env.domain}/admin/)  
   Admin name: ${globals.ADMIN_USER}  
   Password: ${globals.ADMIN_PASS}  
-  To add custom domain name for your DjangoCMS installation follow the steps described in our [documentation](http://docs.jelastic.com/custom-domains)  
+  Direct ssh connection to management node:  
+  ``ssh ${nodes.cp.master.id}-${user.uid}@gate_url:gate_port/`` 
+  To add custom domain name for your DjangoCMS installation follow the steps described in our [documentation](http://docs.jelastic.com/custom-domains) 
