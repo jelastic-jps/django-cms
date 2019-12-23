@@ -73,8 +73,6 @@ actions:
         -s --no-user --bootstrap yes --permissions yes \
         -p /var/www/webroot ROOT
         sed -i "s/^ALLOWED_HOSTS.*/ALLOWED_HOSTS = ['*']/g" /var/www/webroot/ROOT/settings.py
-        sed -i "s/^MEDIA_ROOT =.*/MEDIA_ROOT = os.path.join(DATA_DIR, 'ROOT', 'media')/g" /var/www/webroot/ROOT/settings.py
-        sed -i "s/^STATIC_ROOT =.*/STATIC_ROOT = os.path.join(DATA_DIR, 'ROOT', 'static')/g" /var/www/webroot/ROOT/settings.py
         /var/www/webroot/manage.py collectstatic
         /var/www/webroot/manage.py createsuperuser --username ${globals.ADMIN_USER} --email ${user.email} --noinput
         /var/www/webroot/manage.py shell -c "from django.contrib.auth.models import User;user = User.objects.get(username='${globals.ADMIN_USER}');user.set_password('${globals.ADMIN_PASS}');user.save()"
