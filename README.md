@@ -8,13 +8,20 @@
 
 ### Environment Topology
 
-The JPS package creates a Python-based environment, which initially contains a single Apache application server, and deploys the Django CMS software.
+The JPS package creates a Python-based environment, which contains a MySQL Server, Apache application server and deploys the Django CMS software from the web.   
+The version to be installed on a choice in the install between <strong>Stable</strong> and <strong>LTS</strong>, currently equal on both releases.
 <table border="0"><tr><td>
   <img src="images/djangocms-environment-topology.png">
   </td><td>
-<strong>Django Version: 1.11.17</strong></br>    
-<strong>Django CMS Version: 3.5.3</strong></br>    
-<strong>Python Engine: Python 3.6.6</strong></br>     
+<strong>Stable</strong></br>    
+<strong>Django Version: 2.2.9</strong></br>    
+<strong>Django CMS Version: 3.7.1</strong></br>    
+<strong>Python Engine: Python 3.7.5</strong></br>     
+  </td><td>
+<strong>LTS</strong></br>    
+<strong>Django Version: 2.2.9</strong></br>    
+<strong>Django CMS Version: 3.7.1</strong></br>    
+<strong>Python Engine: Python 3.7.5</strong></br>     
   </td></tr></table>
 
 ### Deployment to the Cloud

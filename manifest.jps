@@ -1,24 +1,113 @@
+---
 type: install
-baseUrl: https://download.jelastic.com
-logo: /public.php?service=files&t=bf35478b7707b5269d44adfe07b093a6&download
+baseUrl: https://raw.githubusercontent.com/jelastic-jps/django-cms/master
+logo: /images/cms_icon.png
 homepage: http://django-cms.org/
+startPage: ${env.protocol}://${env.domain}/admin/
 name: DjangoCMS
+id: Django-Scripted
 categories:
 - apps/cms
 - apps/content-management
 description: The open source content management system based on the Web framework Django.
+
+settings:
+  fields:
+    - caption: Select django CMS and django version to install
+      type: list
+      name: DJANGO_VER
+      default: stable
+      required: true
+      values:
+        - value: lts
+          caption: Long Term Support
+        - value: stable
+          caption: Stable 3.7 (Default)
+
+globals:
+  DB_USER: jelastic-${fn.random}
+  DB_PASS: ${fn.password(10)}
+  ADMIN_PASS: ${fn.password(10)}
+  ADMIN_USER: dj-${fn.random}
+
 nodes:
-  nodeType: apache-python
-  cloudlets: 8
-onInstall:  
-  deploy:
-    archive: ${baseUrl}/public.php?service=files&t=37fb2dedbc72453fe73fbe2e890a10f2&download
-    name: djangoCMS.zip
-    context: ROOT
-success: |
-  Below you will find your domain name link.  
-  Domain name URL: [${env.protocol}://${env.domain}/](${env.protocol}://${env.domain}/)  
-  Admin panel URL: [${env.protocol}://${env.domain}/admin/](${env.protocol}://${env.domain}/admin/)  
-  Admin name: jelastic  
-  Password: jelastic  
+  - nodeType: apache-python
+    tag: 2.4.41-python-3.7.5
+    #django is not supported yet on python 3.8
+    #ref: https://django.readthedocs.io/en/2.2.x/faq/install.html#faq-python-version-support
+    cloudlets: 8
+    count: 1
+    nodeGroup: cp
+    links: sqldb:DB
+
+  - nodeType: mariadb-dockerized
+    count: 1
+    cloudlets: 8
+    nodeGroup: sqldb
+
+onInstall:
+  - log: Set Node Display Name
+  - setNodeDisplayName [cp]: AppServer
+  - setNodeDisplayName [sqldb]: Database
+  - log: Creating django Database
+  - createDb
+  - log: Deploying djangocms-installer
+  - deployDjango
+  - log: Setting up django cms
+  - setupDjango
+  - log: Install Complete
+
+actions:
+  createDb:
+    - cmd [sqldb]: |-
+        wget https://raw.githubusercontent.com/jelastic-jps/mysql-cluster/master/scripts/setupUser.sh -O ~/setupUser.sh &>> /var/log/run.log
+        bash ~/setupUser.sh ${globals.DB_USER} ${globals.DB_PASS} &>> /var/log/run.log
+        jem passwd set -p ${globals.DB_PASS} &>> /var/log/run.log
+        mysql -u${globals.DB_USER} -p${globals.DB_PASS} -e "CREATE DATABASE IF NOT EXISTS django;"
+      user: root
+
+  deployDjango:
+    - log: Adding jelastic-python to PATH
+    - cmd [cp]: echo 'export PATH=$PATH:/opt/jelastic-python37/bin/'  >> /etc/profile
+      user: root
+    - log: Updating pip
+    - cmd [cp]: python -m pip install --upgrade pip
+      user: root
+
+  setupDjango:
+    - log: Removing ROOT (will be created by djangocms)
+    - cmd [cp]: rm -rf /var/www/webroot/ROOT
+      user: jelastic
+    - log: Installing djangocms-installer
+    - cmd [cp]: python -m pip install djangocms-installer django-cms
+      user: jelastic
+    - log: Installing djangocms to ROOT
+    - cmd [cp]: >-
+        /opt/jelastic-python37/bin/djangocms
+        --django-version ${settings.DJANGO_VER}
+        --cms-version ${settings.DJANGO_VER}
+        --db mysql://${globals.DB_USER}:${globals.DB_PASS}@DB/django
+        -s --no-user --bootstrap yes --permissions yes
+        --parent-dir /var/www/webroot ROOT
+      user: jelastic
+    - log: Finalalize settings
+    - cmd [cp]: |-
+        sed -i "s/^ALLOWED_HOSTS.*/ALLOWED_HOSTS = ['*']/g" /var/www/webroot/ROOT/settings.py
+        sed -i "s/^Alias \/static.*/Alias \/static \/var\/www\/webroot\/static/g" /etc/httpd/conf.d/wsgi.conf
+        sed -i "s/^Alias \/images.*/Alias \/media \/var\/www\/webroot\/media/g" /etc/httpd/conf.d/wsgi.conf
+        jem service restart httpd
+        /var/www/webroot/manage.py collectstatic
+        /var/www/webroot/manage.py createsuperuser --username ${globals.ADMIN_USER} --email ${user.email} --noinput
+        /var/www/webroot/manage.py shell -c "from django.contrib.auth.models import User;user = User.objects.get(username='${globals.ADMIN_USER}');user.set_password('${globals.ADMIN_PASS}');user.save()"
+        chmod 0775 /var/www/webroot/ROOT
+      user: jelastic
+
+success: |+
+  Below you will find your domain name link.   
+  Domain name URL: [${env.protocol}://${env.domain}/](${env.protocol}://${env.domain}/)   
+  Admin panel URL: [${env.protocol}://${env.domain}/admin/](${env.protocol}://${env.domain}/admin/)   
+  
+  Admin name: ${globals.ADMIN_USER}   
+  Password: ${globals.ADMIN_PASS}   
+ 
   To add custom domain name for your DjangoCMS installation follow the steps described in our [documentation](http://docs.jelastic.com/custom-domains)
