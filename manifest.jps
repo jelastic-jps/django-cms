@@ -1,4 +1,5 @@
 type: install
+id: djangocms
 baseUrl: https://download.jelastic.com
 logo: /public.php?service=files&t=bf35478b7707b5269d44adfe07b093a6&download
 homepage: http://django-cms.org/
