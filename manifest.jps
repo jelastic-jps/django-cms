@@ -1,26 +1,48 @@
 type: install
 version: 1.7
 id: djangocms
-baseUrl: https://download.jelastic.com
-logo: /public.php?service=files&t=bf35478b7707b5269d44adfe07b093a6&download
+logo: https://download.jelastic.com/public.php?service=files&t=bf35478b7707b5269d44adfe07b093a6&download
 homepage: http://django-cms.org/
 name: DjangoCMS
-categories:
-- apps/cms
-- apps/content-management
-description: The open source content management system based on the Web framework Django.
+
+globals:
+  webroot: /var/www/webroot/
+  password: ${fn.password}
+
 nodes:
   nodeType: apache-python
   cloudlets: 8
+
 onInstall:  
-  deploy:
-    archive: ${baseUrl}/public.php?service=files&t=37fb2dedbc72453fe73fbe2e890a10f2&download
-    name: djangoCMS.zip
-    context: ROOT
+   - cmd[cp]: |-
+      cd ${globals.webroot} && rm -rf ROOT
+      virtualenv env
+      source env/bin/activate
+      pip install --upgrade pip
+      pip install djangocms-installer
+      mkdir ROOT && cd ROOT
+      djangocms -f -p . ROOT
+      
+      echo "python manage.py shell << EOF 
+      from django.contrib.auth.models import User
+      l = User.objects.all() 
+      u = l[0]
+      u.set_password('${globals.password}')
+      u.save()
+      EOF" > ${globals.webroot}ROOT/resetpassword.sh
+      
+      cd ${globals.webroot}/ROOT && python manage.py collectstatic
+      chmod +x resetpassword.sh && ./resetpassword.sh
+      mv ROOT/* . && rm -rf ROOT
+      sed -i "s|'NAME': 'project.db'|'NAME': 'ROOT/project.db'|g" settings.py
+      chown apache:apache *
+      sed -i "s|ALLOWED_HOSTS = \[.*|ALLOWED_HOSTS = \['*'\]|g" settings.py
+      jem service restart
+
 success: |
   Below you will find your domain name link.  
   Domain name URL: [${env.protocol}://${env.domain}/](${env.protocol}://${env.domain}/)  
   Admin panel URL: [${env.protocol}://${env.domain}/admin/](${env.protocol}://${env.domain}/admin/)  
-  Admin name: jelastic  
-  Password: jelastic  
+  Admin name: admin  
+  Password: ${globals.password}  
   To add custom domain name for your DjangoCMS installation follow the steps described in our [documentation](http://docs.jelastic.com/custom-domains)
