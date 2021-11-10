@@ -1,26 +1,50 @@
 type: install
 version: 1.7
 id: djangocms
-baseUrl: https://download.jelastic.com
-logo: /public.php?service=files&t=bf35478b7707b5269d44adfe07b093a6&download
+logo: https://download.jelastic.com/public.php?service=files&t=bf35478b7707b5269d44adfe07b093a6&download
 homepage: http://django-cms.org/
 name: DjangoCMS
-categories:
-- apps/cms
-- apps/content-management
-description: The open source content management system based on the Web framework Django.
+
+globals:
+  webroot: /var/www/webroot/
+  password: ${fn.password}
+  RESET_PASS_SCRIPT: /var/www/webroot/ROOT/resetpassword.sh
+
 nodes:
   nodeType: apache-python
   cloudlets: 8
-onInstall:  
-  deploy:
-    archive: ${baseUrl}/public.php?service=files&t=37fb2dedbc72453fe73fbe2e890a10f2&download
-    name: djangoCMS.zip
-    context: ROOT
+
+onInstall:
+   - cmd[cp]: |-
+      cd ${globals.webroot} && rm -rf ROOT
+      python3 -m venv ${globals.webroot}
+      source ${globals.webroot}/bin/activate
+      pip install --upgrade pip
+      pip install djangocms-installer
+      pip install pytz
+      pip install django
+      djangocms -s -f -p . ROOT
+      chown apache:apache *
+      sed -i "s|ALLOWED_HOSTS = \[.*|ALLOWED_HOSTS = \['*'\]|g" ROOT/settings.py
+      echo "python manage.py shell << EOF 
+      from django.contrib.auth.models import User
+      l = User.objects.all() 
+      u = l[0]
+      u.set_password('${globals.password}')
+      u.save()
+      EOF" > ${globals.RESET_PASS_SCRIPT}
+      chmod +x ${globals.RESET_PASS_SCRIPT} && ${globals.RESET_PASS_SCRIPT}
+      python3 manage.py collectstatic
+      cp -r  ${globals.webroot}/static/* ${globals.webroot}/ROOT/static/
+      echo "WSGIApplicationGroup %{GLOBAL}" >> /etc/httpd/conf.d/wsgi.conf
+      python_path=$([[ -d "${globals.webroot}/lib/python3.10" ]] && echo "python3.10" || echo "python3.9")
+      sed -ri "s|import os|import os\nimport sys\nsys.path.append('${globals.webroot}/lib/${python_path}/site-packages')|g" ${globals.webroot}/ROOT/wsgi.py
+      jem service restart
+
 success: |
   Below you will find your domain name link.  
   Domain name URL: [${env.protocol}://${env.domain}/](${env.protocol}://${env.domain}/)  
   Admin panel URL: [${env.protocol}://${env.domain}/admin/](${env.protocol}://${env.domain}/admin/)  
-  Admin name: jelastic  
-  Password: jelastic  
+  Admin name: admin  
+  Password: ${globals.password}  
   To add custom domain name for your DjangoCMS installation follow the steps described in our [documentation](http://docs.jelastic.com/custom-domains)
