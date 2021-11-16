@@ -39,6 +39,7 @@ onInstall:
       echo "WSGIApplicationGroup %{GLOBAL}" >> /etc/httpd/conf.d/wsgi.conf
       python_path=$([[ -d "${globals.webroot}/lib/python3.10" ]] && echo "python3.10" || echo "python3.9")
       sed -ri "s|import os|import os\nimport sys\nsys.path.append('${globals.webroot}/lib/${python_path}/site-packages')|g" ${globals.webroot}/ROOT/wsgi.py
+      echo "/var/www/webroot/" >> /etc/jelastic/redeploy.conf
       jem service restart
 
 success: |
