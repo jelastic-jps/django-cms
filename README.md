@@ -21,7 +21,7 @@ The JPS package creates a Python-based environment, which initially contains a s
 
 In order to get this solution instantly deployed, click the **Get It Hosted Now** button below, specify the required information within the opened page, choose one of the [Jelastic Public Cloud providers](https://jelastic.cloud) and click **Install**.
 
-[![GET IT HOSTED](https://raw.githubusercontent.com/jelastic-jps/jpswiki/master/images/getithosted.png)](https://jelastic.com/install-application/?manifest=https://raw.githubusercontent.com/jelastic-jps/django-cms/master/manifest.jps)
+[![GET IT HOSTED](https://jelastic.com/getithosted/button.png)](https://jelastic.com/install-application/?manifest=https://raw.githubusercontent.com/jelastic-jps/django-cms/master/manifest.jps)
 
 **Note**: If you are already registered at Jelastic, you can deploy this cluster by importing the [package manifest raw link](https://raw.githubusercontent.com/jelastic-jps/django-cms/master/manifest.jps) within the dashboard.
 
