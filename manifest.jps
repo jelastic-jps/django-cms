@@ -18,10 +18,11 @@ onInstall:
    - cmd[cp]: |-
       cd ${globals.webroot} && rm -rf ROOT
       python3 -m venv ${globals.webroot}
-      source ${globals.webroot}/bin/activate
+      source bin/activate
       pip install --upgrade pip
       pip install djangocms-installer
       pip install pytz
+      pip install dj-database-url==0.5.0
       pip install django
       djangocms -s -f -p . ROOT
       chown apache:apache *
