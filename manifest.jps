@@ -38,7 +38,8 @@ onInstall:
       python3 manage.py collectstatic
       cp -r  ${globals.webroot}/static/* ${globals.webroot}/ROOT/static/
       echo "WSGIApplicationGroup %{GLOBAL}" >> /etc/httpd/conf.d/wsgi.conf
-      python_path=$([[ -d "${globals.webroot}/lib/python3.10" ]] && echo "python3.10" || echo "python3.9")
+      python_path=$(ls ${globals.webroot}/lib/)
+      [ -z $python_path ] && python_path=$([[ -d "${globals.webroot}/lib/python3.11" ]] && echo "python3.11" || echo "python3.10")
       sed -ri "s|import os|import os\nimport sys\nsys.path.append('${globals.webroot}/lib/${python_path}/site-packages')|g" ${globals.webroot}/ROOT/wsgi.py
       echo "/var/www/webroot/" >> /etc/jelastic/redeploy.conf
       jem service restart
