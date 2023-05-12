@@ -16,6 +16,9 @@ nodes:
 
 onInstall:
    - cmd[cp]: |-
+       yum -y install cairo-devel
+     user: root
+   - cmd[cp]: |-
       cd ${globals.webroot} && rm -rf ROOT
       python3 -m venv ${globals.webroot}
       source bin/activate
