@@ -1,9 +1,11 @@
 type: install
 version: 1.7
 id: djangocms
-logo: https://download.jelastic.com/public.php?service=files&t=bf35478b7707b5269d44adfe07b093a6&download
-homepage: http://django-cms.org/
 name: DjangoCMS
+homepage: https://www.django-cms.org/
+baseUrl: https://raw.githubusercontent.com/sych74/django-cms/master
+logo: images/cms_icon.png
+
 
 globals:
   webroot: /var/www/webroot/
@@ -12,6 +14,7 @@ globals:
 
 nodes:
   nodeType: apache-python
+  engine: python3.12
   cloudlets: 8
 
 onInstall:
