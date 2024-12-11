@@ -12,27 +12,21 @@ globals:
 
 nodes:
   nodeType: apache-python
-  engine: python3.12
   cloudlets: 8
 
 onInstall:
-   - cmd[cp]: |-
-       yum -y install cairo-devel
-     user: root
    - cmd[cp]: |-
       cd ${globals.webroot} && rm -rf ROOT
       python3 -m venv ${globals.webroot}
       source bin/activate
       pip install --upgrade pip
-      pip install setuptools
-      pip install --upgrade setuptools
-      pip install djangocms-installer
-      pip install pytz
-      pip install dj-database-url==0.5.0
-      pip install django
-      djangocms -s -f -p . ROOT
-      chown apache:apache *
+      pip install django-cms
+      djangocms --noinput --username admin --email ${user.email} ROOT .
+      echo "STATIC_ROOT = BASE_DIR / 'static'" >> ROOT/settings.py
+      python manage.py collectstatic --noinput
+      cp -r ${globals.webroot}/static/* ${globals.webroot}/ROOT/static/
       sed -i "s|ALLOWED_HOSTS = \[.*|ALLOWED_HOSTS = \['*'\]|g" ROOT/settings.py
+      echo "WSGIApplicationGroup %{GLOBAL}" >> /etc/httpd/conf.d/wsgi.conf
       echo "python manage.py shell << EOF 
       from django.contrib.auth.models import User
       l = User.objects.all() 
@@ -41,13 +35,8 @@ onInstall:
       u.save()
       EOF" > ${globals.RESET_PASS_SCRIPT}
       chmod +x ${globals.RESET_PASS_SCRIPT} && ${globals.RESET_PASS_SCRIPT}
-      python3 manage.py collectstatic
-      cp -r  ${globals.webroot}/static/* ${globals.webroot}/ROOT/static/
-      echo "WSGIApplicationGroup %{GLOBAL}" >> /etc/httpd/conf.d/wsgi.conf
-      python_path=$(ls ${globals.webroot}/lib/)
-      [ -z $python_path ] && python_path=$([[ -d "${globals.webroot}/lib/python3.12" ]] && echo "python3.12" || echo "python3.11")
-      sed -ri "s|import os|import os\nimport sys\nsys.path.append('${globals.webroot}/lib/${python_path}/site-packages')|g" ${globals.webroot}/ROOT/wsgi.py
-      echo "/var/www/webroot/" >> /etc/jelastic/redeploy.conf
+      python_version=$(python -c "import sys; print(f'{sys.version_info[0]}.{sys.version_info[1]}')")
+      sed -ri "s|import os|import os\nimport sys\nsys.path.append('${globals.webroot}/lib/python${python_version}/site-packages')|g" ${globals.webroot}/ROOT/wsgi.py
       jem service restart
 
 success: |
