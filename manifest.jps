@@ -12,6 +12,7 @@ globals:
 
 nodes:
   nodeType: apache-python
+  engine: python3.12
   cloudlets: 8
 
 onInstall:
