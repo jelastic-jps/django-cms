@@ -3,7 +3,7 @@ version: 1.7
 id: djangocms
 name: DjangoCMS
 homepage: https://www.django-cms.org/
-baseUrl: https://raw.githubusercontent.com/sych74/django-cms/master
+baseUrl: https://raw.githubusercontent.com/jelastic-jps/django-cms/master
 logo: images/cms_icon.png
 
 
