@@ -1,34 +1,36 @@
-<p align="left"> 
-<img style="padding: 0 15px; float: left;" src="images/django-logo.png" width="200">
+<p align="center"> 
+<img src="images/cms_icon.png" alt="Django CMS">
 </p>
 
-## Django CMS One-Click Deploy
+# Django CMS
 
-**Django CMS** is an open-source content management system with user-friendly interface and rich feature set built for needs of multilingual publishing. Django CMS is aimed at helping developers to take applications from concept to completion as quickly as possible, avoiding common security issues, and flexibly scaling your busy websites.
+The package deploys the [Django CMS](https://www.django-cms.org/) solution - a powerful and flexible content management system (CMS) built on the open-source Python-based Django framework. With its modular architecture, Django CMS allows for easy customization and extension, making it a developer- and user-friendly solution suitable for a wide range of web projects.
 
-### Environment Topology
 
-The JPS package creates a Python-based environment, which initially contains a single Apache application server, and deploys the Django CMS software.
-<table border="0"><tr><td>
-  <img src="images/djangocms-environment-topology.png">
-  </td><td>
-<strong>Django Version: 1.11.17</strong></br>    
-<strong>Django CMS Version: 3.5.3</strong></br>    
-<strong>Python Engine: Python 3.6.6</strong></br>     
-  </td></tr></table>
+## Environment Topology
 
-### Deployment to the Cloud
+This package creates a dedicated Django CMS environment that contains one dedicated Python-based application server container. It automatically deploys and sets the Django CMS application. The automatic vertical scaling is enabled out of the box, and [horizontal scaling](https://www.virtuozzo.com/application-platform-docs/automatic-horizontal-scaling/) can be configured (if needed). The default software stacks utilized in the package are the following:
 
-In order to get this solution instantly deployed, click the **Get It Hosted Now** button below, specify the required information within the opened page, choose one of the [Jelastic Public Cloud providers](https://jelastic.cloud) and click **Install**.
+- Apache 2 Python application server (Python 3.12)
+- Django 5.1.4
+- Django CMS 4.1.4
 
-[![GET IT HOSTED](https://raw.githubusercontent.com/jelastic-jps/jpswiki/master/images/getithosted.png)](https://jelastic.com/install-application/?manifest=https://raw.githubusercontent.com/jelastic-jps/django-cms/master/manifest.jps)
 
-**Note**: If you are already registered at Jelastic, you can deploy this cluster by importing the [package manifest raw link](https://raw.githubusercontent.com/jelastic-jps/django-cms/master/manifest.jps) within the dashboard.
+## Deployment to Cloud
 
-In the opened confirmation window at Jelastic dashboard, just specify the environment name and the region if several are available, click **Install** and wait for the process to be automatically completed.
+To get your Django CMS solution, click the "**Deploy to Cloud**" button below, specify your email address within the widget, choose one of the [Virtuozzo Public Cloud Providers](https://www.virtuozzo.com/application-platform-partners/), and confirm by clicking **Install**.
 
-<p align="left"> 
-<img src="images/install.png" width="500">
-</p>
+[![Deploy to Cloud](https://raw.githubusercontent.com/jelastic-jps/common/main/images/deploy-to-cloud.png)](https://www.virtuozzo.com/install/?manifest=https://raw.githubusercontent.com/jelastic-jps/django-cms/refs/heads/master/manifest.jps)
 
-More information can be found in the article [Django CMS Installation to the Cloud](https://jelastic.com/blog/django-cms-installation-python-cloud-hosting).
+> If you already have a Virtuozzo Application Platform (VAP) account, you can deploy this solution from the [Marketplace](https://www.virtuozzo.com/application-platform-docs/marketplace/) or [import](https://www.virtuozzo.com/application-platform-docs/environment-import/) a manifest file from this repository.
+
+
+## Installation Process
+
+In the opened installation window at the VAP dashboard, provide a preferred environment and display names, choose a region (if available), and confirm the installation.
+
+![Django CMS deployment wizard](images/djangocms-deployment-wizard.png)
+
+Your Django CMS application will be automatically installed in a few minutes.
+
+More information can be found in the **[Django CMS Installation to the Cloud](https://www.virtuozzo.com/company/blog/django-cms-installation-python-cloud-hosting/)** article.
