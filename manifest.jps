@@ -1,9 +1,10 @@
 type: install
 version: 1.7
 id: djangocms
-name: DjangoCMS
+name: Django CMS
 homepage: https://www.django-cms.org/
 baseUrl: https://raw.githubusercontent.com/jelastic-jps/django-cms/master
+description: Django CMS is an open-source content management system with a user-friendly interface and rich feature set. Django CMS is aimed at helping developers to take applications from concept to completion as quickly as possible, avoiding common security issues, and flexibly scaling your busy websites.
 logo: images/cms_icon.png
 
 
@@ -43,9 +44,14 @@ onInstall:
       jem service restart
 
 success: |
-  Below you will find your domain name link.  
-  Domain name URL: [${env.protocol}://${env.domain}/](${env.protocol}://${env.domain}/)  
-  Admin panel URL: [${env.protocol}://${env.domain}/admin/](${env.protocol}://${env.domain}/admin/)  
-  Admin name: admin  
-  Password: ${globals.password}  
-  To add custom domain name for your DjangoCMS installation follow the steps described in our [documentation](http://docs.jelastic.com/custom-domains)
+  Your Django CMS installation is available at:
+
+  **App URL:** [${env.protocol}://${env.domain}/](${env.protocol}://${env.domain}/)
+
+  Use the following credentials to access the Django CMS admin panel:
+  
+  **Admin panel URL:** [${env.protocol}://${env.domain}/admin/](${env.protocol}://${env.domain}/admin/)  
+  **Admin name:** admin  
+  **Admin password:** ${globals.password}
+
+  To add a custom domain name for your Django CMS installation, follow the steps described in our [documentation](https://www.virtuozzo.com/application-platform-docs/custom-domains/).
