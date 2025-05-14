@@ -13,6 +13,9 @@ globals:
   password: ${fn.password}
   RESET_PASS_SCRIPT: /var/www/webroot/ROOT/resetpassword.sh
 
+ssl: true
+skipNodeEmails: true
+
 nodes:
   nodeType: apache-python
   engine: python3.12
