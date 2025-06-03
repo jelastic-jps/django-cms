@@ -3,7 +3,7 @@ version: 1.7
 id: djangocms
 name: Django CMS
 homepage: https://www.django-cms.org/
-baseUrl: https://raw.githubusercontent.com/jelastic-jps/django-cms/master
+baseUrl: https://cdn.jsdelivr.net/gh/jelastic-jps/django-cms@master
 description: Django CMS is an open-source content management system with a user-friendly interface and rich feature set. Django CMS is aimed at helping developers to take applications from concept to completion as quickly as possible, avoiding common security issues, and flexibly scaling your busy websites.
 logo: images/cms_icon.png
 
@@ -12,6 +12,9 @@ globals:
   webroot: /var/www/webroot/
   password: ${fn.password}
   RESET_PASS_SCRIPT: /var/www/webroot/ROOT/resetpassword.sh
+
+ssl: true
+skipNodeEmails: true
 
 nodes:
   nodeType: apache-python
