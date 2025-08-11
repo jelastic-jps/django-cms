@@ -44,6 +44,7 @@ onInstall:
       chmod +x ${globals.RESET_PASS_SCRIPT} && ${globals.RESET_PASS_SCRIPT}
       python_version=$(python -c "import sys; print(f'{sys.version_info[0]}.{sys.version_info[1]}')")
       sed -ri "s|import os|import os\nimport sys\nsys.path.append('${globals.webroot}/lib/python${python_version}/site-packages')|g" ${globals.webroot}/ROOT/wsgi.py
+      echo "CSRF_TRUSTED_ORIGINS = ['https://${env.domain}', 'http://${env.domain}']" >> ROOT/settings.py
       jem service restart
 
 success: |
